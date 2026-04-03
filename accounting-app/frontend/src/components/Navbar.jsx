@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useCurrency } from '../context/CurrencyContext';
@@ -6,6 +7,7 @@ export default function Navbar() {
   const { user, logout, isAdmin } = useAuth();
   const { currency, toggleCurrency } = useCurrency();
   const navigate = useNavigate();
+  const [menuOpen, setMenuOpen] = useState(false);
 
   const handleLogout = async () => {
     await logout();
@@ -14,23 +16,49 @@ export default function Navbar() {
 
   if (!user) return null;
 
+  const navLinks = [
+    { path: '/', label: 'Dashboard' },
+    { path: '/transactions', label: 'Transactions' },
+  ];
+
+  const adminLinks = [
+    { path: '/salaries', label: 'Salaries' },
+    { path: '/employees', label: 'Employees' },
+    { path: '/accounts', label: 'Accounts' },
+    { path: '/periods', label: 'Periods' },
+    { path: '/reports', label: 'Reports' },
+  ];
+
+  const allLinks = [...navLinks, ...(isAdmin ? adminLinks : [])];
+
   return (
     <nav className="bg-slate-800 text-white shadow-lg">
       <div className="max-w-7xl mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center space-x-4">
             <Link to="/" className="text-xl font-bold text-emerald-400">AccountingApp</Link>
-            <Link to="/" className="hover:text-emerald-300 px-2 py-1 text-sm">Dashboard</Link>
-            <Link to="/transactions" className="hover:text-emerald-300 px-2 py-1 text-sm">Transactions</Link>
-            {isAdmin && (
-              <>
-                <Link to="/salaries" className="hover:text-emerald-300 px-2 py-1 text-sm">Salaries</Link>
-                <Link to="/employees" className="hover:text-emerald-300 px-2 py-1 text-sm">Employees</Link>
-                <Link to="/accounts" className="hover:text-emerald-300 px-2 py-1 text-sm">Accounts</Link>
-                <Link to="/periods" className="hover:text-emerald-300 px-2 py-1 text-sm">Periods</Link>
-                <Link to="/reports" className="hover:text-emerald-300 px-2 py-1 text-sm">Reports</Link>
-              </>
-            )}
+            <div className="relative">
+              <button
+                onClick={() => setMenuOpen(!menuOpen)}
+                className="hover:text-emerald-300 px-3 py-2 text-sm bg-slate-700 hover:bg-slate-600 rounded"
+              >
+                Menu ▼
+              </button>
+              {menuOpen && (
+                <div className="absolute left-0 mt-0 w-48 bg-slate-700 rounded-b shadow-lg z-10">
+                  {allLinks.map(link => (
+                    <Link
+                      key={link.path}
+                      to={link.path}
+                      onClick={() => setMenuOpen(false)}
+                      className="block px-4 py-2 hover:bg-slate-600 text-sm first:rounded-t-none"
+                    >
+                      {link.label}
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
           <div className="flex items-center space-x-3">
             <button
