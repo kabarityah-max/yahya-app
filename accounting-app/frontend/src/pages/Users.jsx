@@ -17,8 +17,10 @@ export default function Users() {
   const fetchUsers = async () => {
     try {
       const res = await api.get('/users');
-      setUsers(res.data.users);
+      setUsers(res.data.users || []);
     } catch (err) {
+      console.error('Failed to fetch users:', err);
+      setUsers([]);
       toast.error('Failed to load users');
     } finally {
       setLoading(false);
