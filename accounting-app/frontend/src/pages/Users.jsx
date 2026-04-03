@@ -50,13 +50,15 @@ export default function Users() {
   };
 
   const handleDelete = async (id) => {
-    if (!confirm('Delete this user?')) return;
+    const confirmDelete = window.confirm('Delete this user? This action cannot be undone.');
+    if (!confirmDelete) return;
 
     try {
       await api.delete(`/users/${id}`);
       toast.success('User deleted');
       fetchUsers();
     } catch (err) {
+      console.error('Delete error:', err);
       toast.error(err.response?.data?.error || 'Failed to delete user');
     }
   };
