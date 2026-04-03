@@ -1,0 +1,21 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm install:*)",
+      "Bash(npx prisma:*)",
+      "Bash(npm create:*)",
+      "Bash(where psql:*)",
+      "Bash(pg_isready)",
+      "Bash(node prisma/seed.js)",
+      "Bash(node -e \"const { PrismaClient } = require\\(''./.prisma/client''\\); console.log\\(typeof PrismaClient\\);\")",
+      "Bash(node -e \"const p = require\\(''@prisma/client''\\); console.log\\(Object.keys\\(p\\)\\);\")",
+      "Bash(node -e \"require\\(''dotenv''\\).config\\(\\); const { PrismaClient } = require\\(''@prisma/client''\\); const p = new PrismaClient\\({datasourceUrl: process.env.DATABASE_URL}\\); p.$connect\\(\\).then\\(\\(\\) => { console.log\\(''Connected!''\\); p.$disconnect\\(\\); }\\);\")",
+      "Bash(node -e \"require\\(''dotenv''\\).config\\(\\); const { PrismaClient } = require\\(''@prisma/client''\\); const p = new PrismaClient\\({datasourceUrl: process.env.DATABASE_URL}\\); p[''$connect'']\\(\\).then\\(\\(\\) => { console.log\\(''Connected!''\\); return p[''$disconnect'']\\(\\); }\\);\")",
+      "Bash(node test-db.js)",
+      "Bash(rm -rf prisma/migrations)",
+      "Bash(rm -f prisma.config.ts)",
+      "Bash(PRISMA_USER_CONSENT_FOR_DANGEROUS_AI_ACTION=\"yes\" npx prisma migrate reset --force)",
+      "Bash(node src/index.js)"
+    ]
+  }
+}
