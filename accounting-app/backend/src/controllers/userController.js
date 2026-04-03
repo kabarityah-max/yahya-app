@@ -48,14 +48,14 @@ async function createUser(req, res) {
 
 async function deleteUser(req, res) {
   try {
-    const { id } = req.params;
-    const userId = req.user.id;
+    const userId = parseInt(req.params.id, 10);
+    const currentUserId = req.user.id;
 
-    if (id === userId) {
+    if (userId === currentUserId) {
       return res.status(400).json({ error: 'Cannot delete your own account' });
     }
 
-    await prisma.user.delete({ where: { id } });
+    await prisma.user.delete({ where: { id: userId } });
     res.json({ message: 'User deleted successfully' });
   } catch (err) {
     console.error(err);

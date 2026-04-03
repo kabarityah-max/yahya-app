@@ -16,7 +16,15 @@
       "Bash(rm -f prisma.config.ts)",
       "Bash(PRISMA_USER_CONSENT_FOR_DANGEROUS_AI_ACTION=\"yes\" npx prisma migrate reset --force)",
       "Bash(node src/index.js)",
-      "Bash(gh api:*)"
+      "Bash(gh api:*)",
+      "Bash(node -e \"const router = require\\(''./src/routes/users''\\); console.log\\(''Route loaded successfully''\\); console.log\\(router.stack.map\\(r => r.route?.path\\)\\)\")",
+      "Bash(curl -s http://localhost:5000/api/test)",
+      "Bash(curl -s http://localhost:5000/api/health echo \"\" curl -s http://localhost:5000/api/auth/login -X POST -H \"Content-Type: application/json\" -d '{\"\"\"\"email\"\"\"\":\"\"\"\"admin@company.com\"\"\"\",\"\"\"\"password\"\"\"\":\"\"\"\"admin123\"\"\"\"}')",
+      "Bash(__NEW_LINE_d219874a2aa8c384__ echo:*)",
+      "Bash(__NEW_LINE_524ca30f4961d690__ echo:*)",
+      "Bash(curl -s -m 5 https://accounting-app-production-20ce.up.railway.app/api/health)",
+      "Bash(curl -s http://localhost:5000/api/health)",
+      "Bash(curl -sk https://accounting-app-production-20ce.up.railway.app/api/health)"
     ]
   }
 }
