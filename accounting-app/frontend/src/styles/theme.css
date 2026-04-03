@@ -1,0 +1,110 @@
+/* Theme CSS Variables & Global Styling */
+
+:root {
+  --color-primary: #1A80AA;
+  --color-primary-dark: #163C6C;
+  --color-secondary: #25638C;
+  --color-surface: #F7F9FB;
+  --color-white: #FFFFFF;
+  --color-border: #D8E1E8;
+  --color-text-dark: #10243A;
+  --color-text-medium: #5C6B7A;
+  --color-text-light: #7B8A97;
+
+  --spacing-base: 24px;
+  --spacing-sm: 12px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+
+  --radius-card: 8px;
+  --radius-input: 6px;
+
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+  --font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+/* Global Styles */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-family);
+  color: var(--color-text-dark);
+  background-color: var(--color-white);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Typography */
+h1 {
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--color-primary-dark);
+  letter-spacing: -0.5px;
+  margin: 0 0 1rem 0;
+  line-height: 1.2;
+}
+
+h2 {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--color-primary-dark);
+  margin: 0 0 1rem 0;
+  line-height: 1.3;
+}
+
+h3 {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--color-text-dark);
+  margin: 0 0 0.75rem 0;
+  line-height: 1.3;
+}
+
+h4 {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--color-text-dark);
+  margin: 0 0 0.5rem 0;
+}
+
+/* Text Utilities */
+.text-primary {
+  color: var(--color-primary);
+}
+
+.text-primary-dark {
+  color: var(--color-primary-dark);
+}
+
+.text-secondary {
+  color: var(--color-text-medium);
+}
+
+.text-tertiary {
+  color: var(--color-text-light);
+}
+
+.text-dark {
+  color: var(--color-text-dark);
+}
+
+/* Responsive Typography */
+@media (max-width: 640px) {
+  h1 {
+    font-size: 28px;
+  }
+
+  h2 {
+    font-size: 20px;
+  }
+
+  h3 {
+    font-size: 18px;
+  }
+}

@@ -32,45 +32,66 @@ export default function Navbar() {
   const allLinks = [...navLinks, ...(isAdmin ? adminLinks : [])];
 
   return (
-    <nav className="bg-slate-800 text-white shadow-lg">
-      <div className="max-w-7xl mx-auto px-2 sm:px-4">
-        <div className="flex items-center justify-between h-16">
-          <div className="flex items-center space-x-2 sm:space-x-4">
-            <Link to="/" className="text-lg sm:text-xl font-bold text-emerald-400 truncate">AccountingApp</Link>
-            <div className="relative">
-              <button
-                onClick={() => setMenuOpen(!menuOpen)}
-                className="hover:text-emerald-300 px-2 sm:px-3 py-2 text-xs sm:text-sm bg-slate-700 hover:bg-slate-600 rounded whitespace-nowrap"
-              >
-                ☰ Menu
-              </button>
-              {menuOpen && (
-                <div className="absolute left-0 mt-0 w-40 sm:w-48 bg-slate-700 rounded-b shadow-lg z-10">
-                  {allLinks.map(link => (
-                    <Link
-                      key={link.path}
-                      to={link.path}
-                      onClick={() => setMenuOpen(false)}
-                      className="block px-3 sm:px-4 py-2 hover:bg-slate-600 text-xs sm:text-sm"
-                    >
-                      {link.label}
-                    </Link>
-                  ))}
-                </div>
-              )}
-            </div>
-          </div>
-          <div className="flex items-center space-x-2 sm:space-x-3">
+    <nav className="navbar">
+      <div className="navbar-content">
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+          <Link to="/" className="navbar-brand">AccountingApp</Link>
+          <div style={{ position: 'relative' }}>
             <button
-              onClick={toggleCurrency}
-              className="bg-slate-700 hover:bg-slate-600 px-2 sm:px-3 py-1 rounded text-xs sm:text-sm font-mono"
+              onClick={() => setMenuOpen(!menuOpen)}
+              className="btn-secondary btn-sm"
+              style={{ whiteSpace: 'nowrap' }}
             >
-              {currency}
+              ☰ Menu
             </button>
-            <span className="text-xs sm:text-sm text-slate-300 truncate hidden sm:inline">{user.name}</span>
-            <span className="text-xs bg-emerald-600 px-1.5 sm:px-2 py-0.5 rounded">{user.role}</span>
-            <button onClick={handleLogout} className="text-xs sm:text-sm hover:text-red-300 whitespace-nowrap">Logout</button>
+            {menuOpen && (
+              <div style={{
+                position: 'absolute',
+                left: 0,
+                top: '100%',
+                width: '200px',
+                backgroundColor: 'var(--color-white)',
+                border: '1px solid var(--color-border)',
+                borderRadius: 'var(--radius-card)',
+                boxShadow: 'var(--shadow-md)',
+                zIndex: 50,
+                overflow: 'hidden'
+              }}>
+                {allLinks.map(link => (
+                  <Link
+                    key={link.path}
+                    to={link.path}
+                    onClick={() => setMenuOpen(false)}
+                    style={{
+                      display: 'block',
+                      padding: '12px 16px',
+                      color: 'var(--color-text-dark)',
+                      textDecoration: 'none',
+                      fontSize: '14px',
+                      borderBottom: '1px solid var(--color-border)',
+                      transition: 'background-color 0.2s ease',
+                    }}
+                    onMouseEnter={(e) => e.target.style.backgroundColor = 'var(--color-surface)'}
+                    onMouseLeave={(e) => e.target.style.backgroundColor = 'transparent'}
+                  >
+                    {link.label}
+                  </Link>
+                ))}
+              </div>
+            )}
           </div>
+        </div>
+        <div className="navbar-right">
+          <button
+            onClick={toggleCurrency}
+            className="btn-secondary btn-sm"
+            style={{ fontFamily: 'monospace' }}
+          >
+            {currency}
+          </button>
+          <span className="navbar-user">{user.name}</span>
+          <span className="navbar-role">{user.role}</span>
+          <button onClick={handleLogout} className="navbar-link">Logout</button>
         </div>
       </div>
     </nav>

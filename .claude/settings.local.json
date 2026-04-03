@@ -15,7 +15,8 @@
       "Bash(rm -rf prisma/migrations)",
       "Bash(rm -f prisma.config.ts)",
       "Bash(PRISMA_USER_CONSENT_FOR_DANGEROUS_AI_ACTION=\"yes\" npx prisma migrate reset --force)",
-      "Bash(node src/index.js)"
+      "Bash(node src/index.js)",
+      "Bash(gh api:*)"
     ]
   }
 }
