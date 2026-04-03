@@ -15,7 +15,9 @@ const settingsRoutes = require('./routes/settings');
 const app = express();
 
 const allowedOrigins = ['http://localhost:5173'];
-if (process.env.FRONTEND_URL) allowedOrigins.push(process.env.FRONTEND_URL);
+if (process.env.FRONTEND_URL) {
+  process.env.FRONTEND_URL.split(',').forEach(url => allowedOrigins.push(url.trim()));
+}
 app.use(cors({ origin: allowedOrigins, credentials: true }));
 app.use(express.json());
 app.use(cookieParser());
