@@ -11,11 +11,12 @@ export function AuthProvider({ children }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    // Set token in axios default headers if it exists
     const token = localStorage.getItem('token');
-    if (!token) {
-      setLoading(false);
-      return;
+    if (token) {
+      api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
     }
+
     api.get('/auth/me')
       .then((res) => {
         setUser(res.data.user);
@@ -31,17 +32,25 @@ export function AuthProvider({ children }) {
 
   const login = async (email, password) => {
     const res = await api.post('/auth/login', { email, password });
-    localStorage.setItem('token', res.data.token);
-    setUser(res.data.user);
-    localStorage.setItem('user', JSON.stringify(res.data.user));
-    return res.data.user;
+    const { user, token } = res.data;
+
+    // Store token and set it in axios headers
+    localStorage.setItem('token', token);
+    api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+
+    // Store user
+    setUser(user);
+    localStorage.setItem('user', JSON.stringify(user));
+
+    return user;
   };
 
   const logout = async () => {
-    await api.post('/auth/logout').catch(() => {});
+    await api.post('/auth/logout');
     setUser(null);
     localStorage.removeItem('user');
     localStorage.removeItem('token');
+    delete api.defaults.headers.common['Authorization'];
   };
 
   return (

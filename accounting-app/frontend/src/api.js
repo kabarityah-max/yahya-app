@@ -1,16 +1,23 @@
 import axios from 'axios';
 
-const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL ? `${import.meta.env.VITE_API_URL}/api` : '/api',
-});
-
-// Attach token to every request
-api.interceptors.request.use((config) => {
-  const token = localStorage.getItem('token');
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
+const getBaseURL = () => {
+  // Use environment variable if available
+  if (import.meta.env.VITE_API_URL) {
+    return `${import.meta.env.VITE_API_URL}/api`;
   }
-  return config;
+
+  // In development, use relative /api (vite will proxy to localhost:5000)
+  if (import.meta.env.DEV) {
+    return '/api';
+  }
+
+  // In production, use the Railway URL
+  return 'https://accounting-app-production-20ce.up.railway.app/api';
+};
+
+const api = axios.create({
+  baseURL: getBaseURL(),
+  withCredentials: true,
 });
 
 api.interceptors.response.use(
@@ -18,7 +25,6 @@ api.interceptors.response.use(
   (err) => {
     if (err.response?.status === 401 && !window.location.pathname.includes('/login')) {
       localStorage.removeItem('user');
-      localStorage.removeItem('token');
       window.location.href = '/login';
     }
     return Promise.reject(err);
