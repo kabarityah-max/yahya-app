@@ -1,5 +1,6 @@
 const { PrismaClient } = require('@prisma/client');
 const bcrypt = require('bcryptjs');
+const { sendWelcomeEmail } = require('../services/emailService');
 
 const prisma = new PrismaClient();
 
@@ -39,7 +40,23 @@ async function createUser(req, res) {
       select: { id: true, name: true, email: true, role: true },
     });
 
-    res.json({ user, message: 'User created successfully' });
+    // Send welcome email to the newly created user (non-blocking)
+    const emailResult = await sendWelcomeEmail(user, password);
+
+    // Update email tracking in database
+    if (emailResult.success) {
+      await prisma.user.update({
+        where: { id: user.id },
+        data: { emailSent: true, emailSentAt: new Date() },
+      });
+    }
+
+    res.json({
+      user,
+      message: 'User created successfully',
+      emailSent: emailResult.success,
+      emailError: emailResult.error || null,
+    });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: 'Server error' });

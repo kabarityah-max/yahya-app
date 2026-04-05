@@ -37,8 +37,15 @@ export default function Users() {
 
     setSubmitting(true);
     try {
-      await api.post('/users', { name, email, password });
-      toast.success('User created successfully');
+      const response = await api.post('/users', { name, email, password });
+
+      // Show email delivery status
+      if (response.data.emailSent) {
+        toast.success(`User created. Welcome email sent to ${email}`);
+      } else {
+        toast.success(`User created but email failed to send: ${response.data.emailError || 'Unknown error'}`);
+      }
+
       setName('');
       setEmail('');
       setPassword('');
