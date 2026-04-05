@@ -75,8 +75,8 @@ async function deleteUser(req, res) {
     await prisma.user.delete({ where: { id: userId } });
     res.json({ message: 'User deleted successfully' });
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: 'Server error' });
+    console.error('Delete user error:', err.message);
+    res.status(500).json({ error: err.message || 'Server error' });
   }
 }
 
